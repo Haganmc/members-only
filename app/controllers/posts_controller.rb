@@ -5,10 +5,11 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(post_params)
+    @post = current_user.posts.build(post_params)
     if @post.save
-      redirect_to posts_path
+      redirect_to posts_path, notice: "Post was successfully created."
     else
+      flash.now[:alert] = @post.errors.full_messages.join(", ")
       render :new
     end
   end
