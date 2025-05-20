@@ -1,0 +1,41 @@
+
+<% if flash[:alert] %>
+  <div class="alert alert-danger"><%= flash[:alert] %></div>
+<% end %>
+
+<div class="card mx-auto" style="max-width: 600px;">
+  <div class="card-body">
+    <%= form_with(model: @post, local: true) do |form| %>
+      <% if @post.errors.any? %>
+        <div class="alert alert-danger">
+          <h4 class="alert-heading"><%= pluralize(@post.errors.count, "error") %> prohibited this post from being saved:</h4>
+          <ul class="mb-0">
+            <% @post.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+      <h1>Edit Post</h1>
+      <div class="mb-3">
+        <label class="form-label"><strong>Author:</strong></label>
+        <span class="form-control-plaintext"><%= current_user.name %></span>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label :title, class: "form-label" %>
+        <%= form.text_field :title, class: "form-control" %>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label :content, class: "form-label" %>
+        <%= form.text_area :content, class: "form-control", rows: 6 %>
+      </div>
+
+      <div class="d-flex justify-content-between">
+        <%= form.submit "Save Post", class: "btn btn-primary" %>
+        <%= link_to 'Back', posts_path, class: "btn btn-secondary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
